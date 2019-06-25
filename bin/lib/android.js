@@ -6,10 +6,6 @@ module.exports = function (context) {
 	var Q = require('q'),
 		path = require('path'),
 		ET = require('elementtree'),
-		cordova = require('cordova'),
-		cordova_lib = cordova.cordova_lib,
-		ConfigParser = cordova_lib.configparser,
-		cordova_util = require('cordova-lib/src/cordova/util'),
 		fs = require("./filesystem")(Q, require('fs'), path),
 		platforms = {};
 
@@ -173,52 +169,19 @@ module.exports = function (context) {
 	}
 
 	function afterPluginInstall () {
-		return fs.exists('platforms/android')
-			// Import preferences into native android project
-			.then(function () { return fs.readFile(path.resolve(__dirname, '../../src/android/AppPreferencesActivity.template')); })
-			.then(function (tmpl) {
-				var projectRoot = cordova_lib.cordova.findProjectRoot(process.cwd()),
-					projectXml = cordova_util.projectConfig(projectRoot),
-					projectConfig = new ConfigParser(projectXml);
-
-				var packageName = projectConfig.android_packageName() || projectConfig.packageName();
-
-				return (
-					//'package me.apla.cordova;\n\n' +
-					//'import ' + packageName + '.R;\n\n' +
-					tmpl.toString ('utf8').replace (/ANDROID_PACKAGE_NAME/g, packageName)
-				);
-			})
-			.then(function (data) {
-				var androidPackagePath = "me.apla.cordova".replace (/\./g, '/');
-
-				var activityFileName= path.join ('platforms/android/app/src/main/java', androidPackagePath, 'AppPreferencesActivity.java');
-
-				return fs.writeFile(activityFileName, data);
-			})
-
-			.catch(function (err) {
-				if (err.code === 'NEXIST') {
-					console.log("Platform android not found: skipping");
-					return;
-				}
-
-				throw err;
-			});
-
 	}
 
 	function clean(config) {
 
 		var androidPackagePath = "me.apla.cordova".replace (/\./g, '/');
-		var activityFileName = path.join ('platforms/android/src', androidPackagePath, 'AppPreferencesActivity.java');
+		var activityFileName = path.join ('platforms/android/app/src/main/java', androidPackagePath, 'AppPreferencesActivity.java');
 
 		return fs.exists('platforms/android')
 			// Remove preferences xml file
-			.then(function () { return fs.unlink('platforms/android/res/xml/apppreferences.xml'); })
+			.then(function () { return fs.unlink('platforms/android/app/src/main/res/xml/apppreferences.xml'); })
 
 			// Remove localization resource file
-			.then(function (prefs) { return fs.unlink('platforms/android/res/values/apppreferences.xml'); })
+			.then(function (prefs) { return fs.unlink('platforms/android/app/src/main/res/values/apppreferences.xml'); })
 
 			// Remove preferences from native android project
 			.then(function (data) {

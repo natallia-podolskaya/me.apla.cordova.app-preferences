@@ -1,8 +1,5 @@
 package me.apla.cordova;
 
-// this is not needed anymore
-// import ANDROID_PACKAGE_NAME.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;

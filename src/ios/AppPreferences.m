@@ -300,22 +300,20 @@
 	//}];
 }
 
-
 - (void)show:(CDVInvokedUrlCommand*)command
 {
 	__block CDVPluginResult* result;
 
-	if(&UIApplicationOpenSettingsURLString != nil) {
+    NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
 
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-
-	} else {
-		result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"switching to preferences not supported"];
-	}
+    if ([[UIApplication sharedApplication] canOpenURL:settingsURL]) {
+        [[UIApplication sharedApplication] openURL:settingsURL options:@{} completionHandler:nil];
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"switching to preferences not supported"];
+    }
 
 	[self.commandDelegate sendPluginResult:result callbackId:[command callbackId]];
-
 }
 
 - (void)store:(CDVInvokedUrlCommand*)command

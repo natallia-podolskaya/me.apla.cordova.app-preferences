@@ -25,6 +25,6 @@ module.exports = function (context) {
 
       console.log('unhandled exception', err);
 
-      return Promise.reject(new Error('Cleanup failed'));
+      throw new Error('Cleanup failed: ' + err.message || err.toString());
     });
 };

@@ -1,30 +1,30 @@
 'use strict';
 
 module.exports = function (context) {
-	var Q = require('q'),
-		path = require('path'),
-		fs = require("./lib/filesystem")(Q, require('fs'), path),
-		settings = require("./lib/settings")(fs, path),
+  var Q = require('q'),
+    path = require('path'),
+    fs = require("./lib/filesystem")(Q, require('fs'), path),
+    settings = require("./lib/settings")(fs, path),
 
-		android = require("./lib/android")(context),
-		ios = require("./lib/ios")(Q, fs, path, require('plist'), require('xcode'));
+    android = require("./lib/android")(context),
+    ios = require("./lib/ios")(Q, fs, path, require('plist'), require('xcode'));
 
-	return settings.get()
-		.then(function (config) {
-			return Q.all([
-				android.clean(config),
-				ios.clean(config)
-			]);
-		})
-		.then(settings.remove)
-		.catch(function(err) {
-			if (err.code === 'NEXIST') {
-				console.log("app-settings.json not found: skipping clean");
-				return;
-			}
+  return settings.get()
+    .then(function (config) {
+      return Q.all([
+        android.clean(config),
+        ios.clean(config)
+      ]);
+    })
+    .then(settings.remove)
+    .catch(function (err) {
+      if (err.code === 'NEXIST' || err.code === 'ENOENT') {
+        console.log("app-settings.json not found or already removed: skipping clean");
+        return;
+      }
 
-			console.log ('unhandled exception', err);
+      console.log('unhandled exception', err);
 
-			throw err;
-		});
+      return Promise.reject(new Error('Cleanup failed'));
+    });
 };

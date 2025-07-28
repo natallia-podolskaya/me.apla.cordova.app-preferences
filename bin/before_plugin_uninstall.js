@@ -23,8 +23,6 @@ module.exports = function (context) {
         return;
       }
 
-      console.log('unhandled exception', err);
-
-      throw new Error('Cleanup failed: ' + err.message || err.toString());
+      console.warn('Cleanup failed (non-fatal):', err.message || err.toString());
     });
 };

@@ -16,7 +16,9 @@
 		<clobbers target="plugins.appPreferences" />
 	</js-module>
 
-	<asset src="www/task/AppPreferences.js" target="task/AppPreferences.js" />
+  <js-module src="www/task/AppPreferences.js" name="task.AppPreferences">
+    <runs />
+  </js-module>
 
 	<hook type="before_plugin_install" src="bin/before_plugin_install.js" />
 

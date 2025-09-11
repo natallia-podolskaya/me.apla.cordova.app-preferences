@@ -17,8 +17,9 @@
 	</js-module>
 
   <js-module src="www/task/AppPreferences.js" name="task.AppPreferences">
-    <clobbers target="plugins.appPreferences.task" />
+    <clobbers target="plugins.appPreferences.task"/>
   </js-module>
+  <js-module src="www/task/loader.js" name="task.Loader"><runs/></js-module>
 
 	<hook type="before_plugin_install" src="bin/before_plugin_install.js" />
 

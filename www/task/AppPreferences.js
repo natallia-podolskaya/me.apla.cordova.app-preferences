@@ -60,7 +60,7 @@ define (function (require, exports, module) {
 			// 	return;
 			// }
 
-			var cordovaModule = cordova.require ('me.apla.cordova.app-preferences.apppreferences');
+			var cordovaModule = cordova.require ('cordova-plugin-app-preferences.apppreferences');
 			cordovaModule.fetch (successCallback, errorCallback, this.forKey, this.inDict);
 		},
 		store: function () {
@@ -93,7 +93,7 @@ define (function (require, exports, module) {
 				return;
 			}
 
-			var cordovaModule = cordova.require ('me.apla.cordova.app-preferences.apppreferences');
+			var cordovaModule = cordova.require ('cordova-plugin-app-preferences.apppreferences');
 			cordovaModule.store (successCallback, errorCallback, this.forKey, this.inDict, this.value);
 		}
 

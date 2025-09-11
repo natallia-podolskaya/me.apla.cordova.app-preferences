@@ -3,23 +3,16 @@
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	id="cordova-plugin-app-preferences"
-	version="0.99.3">
+	version="0.99.4">
 
 	<name>AppPreferences</name>
 	<description>Application preferences plugin and preference pane generator</description>
 	<license>Apache</license>
 	<keywords>preferences, settings</keywords>
-	<repo>https://github.com/apla/me.apla.cordova.app-preferences</repo>
-	<issue>https://github.com/apla/me.apla.cordova.app-preferences/issues</issue>
 
 	<js-module src="www/apppreferences.js" name="apppreferences">
 		<clobbers target="plugins.appPreferences" />
 	</js-module>
-
-  <js-module src="www/task/AppPreferences.js" name="task.AppPreferences">
-    <clobbers target="plugins.appPreferences.task"/>
-  </js-module>
-  <js-module src="www/task/loader.js" name="task.Loader"><runs/></js-module>
 
 	<hook type="before_plugin_install" src="bin/before_plugin_install.js" />
 
